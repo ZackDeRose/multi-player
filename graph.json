@@ -1,0 +1,435 @@
+{
+  "graph": {
+    "nodes": {
+      "chess-server-e2e": {
+        "name": "chess-server-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "chess-server-e2e",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "chess-server-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "test": {
+              "options": {
+                "cwd": "chess-server-e2e",
+                "command": "jest"
+              },
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/chess-server-e2e"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e": {
+              "executor": "@nx/jest:jest",
+              "outputs": [
+                "{workspaceRoot}/coverage/{e2eProjectRoot}"
+              ],
+              "options": {
+                "jestConfig": "chess-server-e2e/jest.config.ts",
+                "passWithNoTests": true
+              },
+              "configurations": {}
+            }
+          },
+          "name": "chess-server-e2e",
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "implicitDependencies": [
+            "chess-server"
+          ],
+          "tags": []
+        }
+      },
+      "chess-server": {
+        "name": "chess-server",
+        "type": "app",
+        "data": {
+          "root": "chess-server",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "chess-server",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "test": {
+              "options": {
+                "cwd": "chess-server",
+                "command": "jest"
+              },
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/chess-server"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@nx/esbuild:esbuild",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "defaultConfiguration": "production",
+              "options": {
+                "platform": "node",
+                "outputPath": "dist/chess-server",
+                "format": [
+                  "cjs"
+                ],
+                "bundle": false,
+                "main": "chess-server/src/main.ts",
+                "tsConfig": "chess-server/tsconfig.app.json",
+                "assets": [
+                  "chess-server/src/assets"
+                ],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                  "sourcemap": true,
+                  "outExtension": {
+                    ".js": ".js"
+                  }
+                }
+              },
+              "configurations": {
+                "development": {},
+                "production": {
+                  "esbuildOptions": {
+                    "sourcemap": false,
+                    "outExtension": {
+                      ".js": ".js"
+                    }
+                  }
+                }
+              }
+            },
+            "serve": {
+              "executor": "@nx/js:node",
+              "defaultConfiguration": "development",
+              "options": {
+                "buildTarget": "chess-server:build"
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "chess-server:build:development"
+                },
+                "production": {
+                  "buildTarget": "chess-server:build:production"
+                }
+              }
+            }
+          },
+          "name": "chess-server",
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "chess-server/src",
+          "projectType": "application",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "chess-web": {
+        "name": "chess-web",
+        "type": "app",
+        "data": {
+          "root": "chess-web",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "chess-web",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "build": {
+              "options": {
+                "cwd": "chess-web",
+                "command": "vite build"
+              },
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "default",
+                "^default",
+                {
+                  "externalDependencies": [
+                    "vite"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/dist/chess-web"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "serve": {
+              "options": {
+                "cwd": "chess-web",
+                "command": "vite serve"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "preview": {
+              "options": {
+                "cwd": "chess-web",
+                "command": "vite preview"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "serve-static": {
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "build",
+                "spa": true
+              },
+              "configurations": {}
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "chess-web",
+                "command": "vitest run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/chess-web"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "chess-web",
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "chess-web/src",
+          "projectType": "application",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "chess": {
+        "name": "chess",
+        "type": "lib",
+        "data": {
+          "root": "chess",
+          "name": "chess",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "chess",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "chess",
+                "command": "vitest run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/chess"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@nx/rollup:rollup",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/chess",
+                "main": "chess/src/index.ts",
+                "tsConfig": "chess/tsconfig.lib.json",
+                "assets": [],
+                "project": "chess/package.json",
+                "compiler": "swc",
+                "format": [
+                  "cjs",
+                  "esm"
+                ]
+              },
+              "configurations": {}
+            },
+            "test": {
+              "executor": "@nx/vite:test",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default"
+              ],
+              "outputs": [
+                "{options.reportsDirectory}"
+              ],
+              "options": {
+                "reportsDirectory": "../coverage/chess"
+              },
+              "configurations": {}
+            }
+          },
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "chess/src",
+          "projectType": "library",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "chess-server-e2e": [
+        {
+          "source": "chess-server-e2e",
+          "target": "chess-server",
+          "type": "implicit"
+        }
+      ],
+      "chess-server": [
+        {
+          "source": "chess-server",
+          "target": "chess",
+          "type": "static"
+        }
+      ],
+      "chess-web": [
+        {
+          "source": "chess-web",
+          "target": "chess",
+          "type": "static"
+        }
+      ],
+      "chess": []
+    }
+  },
+  "affectedProjects": [],
+  "criticalPath": []
+}

@@ -840,3 +840,45 @@ export function isStaleMate(game: Game): boolean {
   const possibleMoves = getAllValidMoves(game);
   return possibleMoves.length === 0;
 }
+
+export function toFen(game: Game): string {
+  let fenBuilder: string[] = [];
+  for (const row of boardRows) {
+    const rowBuilder: string[] = [];
+    let count = 0;
+    for (const column of boardColumns) {
+      const piece = game.board[`${column}${row}`];
+      if (piece) {
+        if (count) {
+          rowBuilder.push(count + '');
+          count = 0;
+        }
+        rowBuilder.push(pieceFen(piece));
+      } else {
+        count++;
+      }
+    }
+    if (count) {
+      rowBuilder.push(count + '');
+    }
+    fenBuilder.unshift(rowBuilder.join(''));
+  }
+  return fenBuilder.join('/');
+}
+
+export function pieceFen(piece: Piece): string {
+  switch (piece.type) {
+    case 'bishop':
+      return piece.color === 'white' ? 'B' : 'b';
+    case 'king':
+      return piece.color === 'white' ? 'K' : 'k';
+    case 'knight':
+      return piece.color === 'white' ? 'N' : 'n';
+    case 'pawn':
+      return piece.color === 'white' ? 'P' : 'p';
+    case 'queen':
+      return piece.color === 'white' ? 'Q' : 'q';
+    case 'rook':
+      return piece.color === 'white' ? 'R' : 'r';
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "name": "chess-server",
+  "main": "src/main.ts"
+}

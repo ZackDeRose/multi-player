@@ -831,6 +831,17 @@ describe('chess', () => {
           'e2',
         ]);
       });
+      test('weird move observed in test random game', () => {
+        const game: Game = {
+          board: {
+            c7: blackKnight,
+          },
+          toMove: 'black',
+        };
+        console.log(asString(game.board));
+        console.log(getAllValidMoves(game));
+        assertMovement(game, 'c7', ['a8', 'a6', 'b5', 'd5', 'e6', 'e8']);
+      });
     });
 
     describe('bishop', () => {

@@ -343,11 +343,13 @@ function knightMovement(square: Square): Square[] {
   for (const [columnOffset, rowOffset] of adjustmentPatterns) {
     const newColumnIndex = columnIndex + columnOffset;
     const newRowIndex = rowIndex + rowOffset;
+    console.log('newColumnIndex', newColumnIndex);
+    console.log('newRowIndex', newRowIndex);
     if (
       newColumnIndex >= 0 &&
       newColumnIndex <= 7 &&
       newRowIndex >= 0 &&
-      newColumnIndex <= 7
+      newRowIndex <= 7
     ) {
       targets.push(`${boardColumns[newColumnIndex]}${boardRows[newRowIndex]}`);
     }
@@ -880,5 +882,24 @@ export function pieceFen(piece: Piece): string {
       return piece.color === 'white' ? 'Q' : 'q';
     case 'rook':
       return piece.color === 'white' ? 'R' : 'r';
+  }
+}
+
+export function toPieceNotionation(
+  type: PieceType
+): 'B' | 'K' | 'N' | 'P' | 'Q' | 'R' {
+  switch (type) {
+    case 'bishop':
+      return 'B';
+    case 'king':
+      return 'K';
+    case 'knight':
+      return 'N';
+    case 'pawn':
+      return 'P';
+    case 'queen':
+      return 'Q';
+    case 'rook':
+      return 'R';
   }
 }
